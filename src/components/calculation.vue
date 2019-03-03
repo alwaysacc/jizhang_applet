@@ -1,8 +1,6 @@
 <template>
   <div class='key-container'>
-    <div class='key-title'>请输入金额</div>
-    <div class='input-box'>{{ money }}</div>
-    <div class='keyboard' @click.stop='_handleKeyPress'>
+    <div class='keyboard' @click='_handleKeyPress'>
       <div class='key-row'>
         <div class='key-cell' data-num='7'>7</div>
         <div class='key-cell' data-num='8'>8</div>
@@ -75,10 +73,11 @@ export default{
       // 如果包含小数点，直接返回
       if (this.money.indexOf('.') > -1) return false
       // 如果小数点是第一位，补0
-      if (!this.money.length) { this.money = '0.' }
+      if (!this.money.length) {
+        this.money = '0.'
+      } else { this.money = this.money + '.' }
 
       // 如果不是，添加一个小数点
-      else { this.money = this.money + '.' }
     },
     // 处理删除键
     _handleDeleteKey () {
@@ -107,13 +106,14 @@ export default{
           this.money = S + num
         }
       }
+      console.log(this.money)
     },
     // 提交
     _handleConfirmKey () {
       let S = this.money
       // 未输入
       if (!S.length) {
-        alert('您目前未输入!')
+        window.alert('您目前未输入!')
         return false
       }
 

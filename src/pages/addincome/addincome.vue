@@ -18,7 +18,10 @@
           <i-grid-item>其他</i-grid-item>
         </i-grid>
         <i-input value="lue3" type="textarea" title="备注：" placeholder="请输入详细地址(最多50字)" maxlength="50" />
-        <i-input value="alue4" title="地址："  />
+        <i-input value="alue4" title="地址：" type="text"  />
+        <i-input value="alue4" title="账户：" type="text"  @click="zhanghu"/>
+        <i-modal :visible="visible4" :actions="actions4" action-mode="vertical" @click="handleClick4">
+        </i-modal>
         <picker mode="date"
                 :value="startDate"
                 :start="pickerStart" end="2217-09-01" @change="bindDateChangeStart($event)">
@@ -26,36 +29,44 @@
             <i-input :value="startDate" title="时间："  />
           </div>
         </picker>
-        <div class='keyboard' @click.stop='_handleKeyPress'>
-          <div class='key-row'>
-            <div class='key-cell' data-num='7'>7</div>
-            <div class='key-cell' data-num='8'>8</div>
-            <div class='key-cell' data-num='9'>9</div>
-            <div class='key-cell' data-num='D'>C</div>
-          </div>
-          <div class='key-row'>
-            <div class='key-cell' data-num='4'>4</div>
-            <div class='key-cell' data-num='5'>5</div>
-            <div class='key-cell' data-num='6'>6</div>
-            <div class='key-cell' data-num='C'>清空</div>
-          </div>
-          <div class='key-row'>
-            <div class='key-cell' data-num='1'>1</div>
-            <div class='key-cell' data-num='2'>2</div>
-            <div class='key-cell' data-num='3'>3</div>
-            <div class='key-cell' data-num='-1'></div>
-          </div>
-          <div class='key-row'>
-            <div class='key-cell disabled' data-num='-1'></div>
-            <div class='key-cell' data-num='.'>.</div>
-            <div class='key-cell' data-num='0'>0</div>
-            <div class='key-cell' data-num='-1'></div>
-          </div>
-          <div class='key-confirm' data-num='S'>确认</div>
-        </div>
+        <i-button bind:click="handleClick" type="primary" size="large">保存</i-button>
       </div>
-      <div v-if="tab2">2</div>
-      <div v-if="tab3">3</div>
+      <div v-if="tab2">
+        <input type="number" v-model="value"  class="input"/>
+        <i-grid>
+          <i-grid-item>工资</i-grid-item>
+          <i-grid-item>理财</i-grid-item>
+          <i-grid-item>其他</i-grid-item>
+        </i-grid>
+        <i-input value="lue3" type="textarea" title="备注：" placeholder="请输入详细地址(最多50字)" maxlength="50" />
+        <i-input value="alue4" title="地址：" type="text"  />
+        <i-input value="alue4" title="账户：" type="text"  />
+        <picker mode="date"
+                :value="startDate"
+                :start="pickerStart" end="2217-09-01" @change="bindDateChangeStart($event)">
+          <div class="index_picker">
+            <i-input :value="startDate" title="时间："  />
+          </div>
+        </picker>
+        <i-button bind:click="handleClick" type="primary" size="large">保存</i-button>
+      </div>
+      <div v-if="tab3">
+        <input type="number" v-model="value"  class="input"/>
+        <i-input value="alue4" title="收款人" type="text"  />
+        <i-input value="lue3" type="textarea" title="备注：" placeholder="请输入详细地址(最多50字)" maxlength="50" />
+        <i-input value="alue4" title="地址：" type="text"  />
+        <i-input value="alue4" title="账户：" type="text"  @click="zhanghu"/>
+        <i-modal :visible="visible4" :actions="actions4" action-mode="vertical" @click="handleClick4">
+        </i-modal>
+        <picker mode="date"
+                :value="startDate"
+                :start="startDate" end="2217-09-01" @change="bindDateChangeStart($event)">
+          <div class="index_picker">
+            <i-input :value="startDate" title="时间："  />
+          </div>
+        </picker>
+        <i-button bind:click="handleClick" type="primary" size="large">保存</i-button>
+      </div>
     </div>
   </div>
 </template>
@@ -70,49 +81,32 @@ export default {
       tab3: '',
       value: 0.00,
       beizhu: ' ',
-      startDate: '2018-05-9',
-      endDate: '2018-02-21',
-      pickerStart: '2018-05-6'
+      startDate: '',
+      visible4: false,
+      actions4: [
+        {
+          name: '按钮1'
+        },
+        {
+          name: '按钮2',
+          color: '#ff9900'
+        },
+        {
+          name: '按钮3',
+          icon: 'search'
+        }
+      ]
     }
   },
 
   components: {
-
   },
 
   computed: {
-    newMultiArray: () => {
-      let array = []
-      const date = new Date()
-      const years = []
-      const months = []
-      const days = []
-      for (let i = 2018; i <= date.getFullYear() + 10; i++) {
-        years.push('' + i)
-      }
-      array.push(years)
-      for (let i = 1; i <= 12; i++) {
-        if (i < 10) {
-          i = '0' + i
-        }
-        months.push('' + i)
-      }
-      array.push(months)
-      for (let i = 1; i <= 31; i++) {
-        if (i < 10) {
-          i = '0' + i
-        }
-        days.push('' + i)
-      }
-      array.push(days)
-      return array
-    }
   },
   mounted () {
     let today = this.getToday()
     this.startDate = today
-    this.endDate = today
-    this.pickerStart = today
   },
 
   methods: {
@@ -156,6 +150,13 @@ export default {
       var this_ = this
       this_.startDate = e.mp.detail.value
       console.log(e)
+    },
+    zhanghu () {
+      this.visible4 = true
+    },
+    handleClick4 (e) {
+      this.visible4 = false
+      console.log(e)
     }
   }
 }
@@ -170,8 +171,10 @@ export default {
   text-align: center;
 }
 .input {
-  border-bottom: 0.05rem black solid;
+  border-bottom: 0.03rem black solid;
   margin-bottom: 0.1rem;
+  font-size: 0.8rem;
+  height: 1rem;
 }
 .center {
   margin-top: 0.2rem;
