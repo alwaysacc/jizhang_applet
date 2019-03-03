@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "i-row": "../../static/iView/row/index",
+    "i-col": "../../static/iView/col/index",
+    "i-tabs": "../../static/iView/tabs/index",
+    "i-tab": "../../static/iView/tab/index",
+    "i-input": "../../static/iView/input/index",
+    "i-panel": "../../static/iView/panel/index"
+  }
+}
