@@ -28,8 +28,8 @@ export default {
     font-size: 0.3rem;
   }
   .top {
-    padding-top: 0.7rem;
-    height: 2.5rem;
+    padding-top: 1rem;
+    height: 2.3rem;
     background-color: #fa7a1f;
     padding-left: 0.2rem;
   }
