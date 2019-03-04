@@ -87,13 +87,13 @@ a {
   font-size: 0.3rem;
 }
 .top {
-  padding-top: 0.2rem;
-  height: 3rem;
+  padding-top: 0.7rem;
+  height: 2.5rem;
   background-color: #fa7a1f;
   padding-left: 0.2rem;
 }
 .top2 {
-  padding-top: 0.5rem;
+  padding-top: 0.2rem;
   font-size: 0.3rem;
 }
 .bot {

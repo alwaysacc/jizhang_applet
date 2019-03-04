@@ -29,7 +29,8 @@
             <i-input :value="startDate" title="时间："  />
           </div>
         </picker>
-        <i-button bind:click="handleClick" type="primary" size="large">保存</i-button>
+        <i-button @click="addOutlay" type="primary" size="large">保存</i-button>
+        <i-toast id="toast" />
       </div>
       <div v-if="tab2">
         <input type="number" v-model="value"  class="input"/>
@@ -48,7 +49,8 @@
             <i-input :value="startDate" title="时间："  />
           </div>
         </picker>
-        <i-button bind:click="handleClick" type="primary" size="large">保存</i-button>
+        <i-button @click="addIncome" type="primary" size="large">保存</i-button>
+        <i-toast id="toast" />
       </div>
       <div v-if="tab3">
         <input type="number" v-model="value"  class="input"/>
@@ -65,13 +67,15 @@
             <i-input :value="startDate" title="时间："  />
           </div>
         </picker>
-        <i-button bind:click="handleClick" type="primary" size="large">保存</i-button>
+        <i-button @click="addTransfer" type="primary" size="large">保存</i-button>
+        <i-toast id="toast" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import {$Toast} from '../../../static/iView/base/index'
 export default {
   data () {
     return {
@@ -96,10 +100,12 @@ export default {
           icon: 'search'
         }
       ]
+
     }
   },
 
   components: {
+    $Toast
   },
 
   computed: {
@@ -114,16 +120,19 @@ export default {
       console.log(detail.mp.detail.key)
       switch (detail.mp.detail.key) {
         case 'tab1':
+          this.current = 'tab1'
           this.tab1 = true
           this.tab3 = false
           this.tab2 = false
           break
         case 'tab2':
+          this.current = 'tab2'
           this.tab2 = true
           this.tab1 = false
           this.tab3 = false
           break
         case 'tab3':
+          this.current = 'tab3'
           this.tab3 = true
           this.tab1 = false
           this.tab2 = false
@@ -157,6 +166,27 @@ export default {
     handleClick4 (e) {
       this.visible4 = false
       console.log(e)
+    },
+    addOutlay () {
+      console.log(1)
+      $Toast({
+        content: '成功的提示',
+        type: 'success'
+      })
+    },
+    addIncome () {
+      console.log(1)
+      $Toast({
+        content: '成功的提示',
+        type: 'success'
+      })
+    },
+    addTransfer () {
+      console.log(1)
+      $Toast({
+        content: '成功的提示',
+        type: 'success'
+      })
     }
   }
 }

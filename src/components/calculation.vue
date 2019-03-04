@@ -28,6 +28,7 @@
       <div class='key-confirm' data-num='S'>确认</div>
     </div>
   </div>
+
 </template>
 
 <script>

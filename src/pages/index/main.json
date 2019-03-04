@@ -1,4 +1,5 @@
 {
+    "navigationBarTitleText": "首页",
     "usingComponents": {
       "i-button": "../../static/iView/button/index",
       "i-card": "../../static/iView/card/index",
