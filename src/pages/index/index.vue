@@ -26,7 +26,7 @@
         </span>
       </div>
       <i-cell-group>
-        <i-cell title="只显示箭头" label="2019年3月1日11:29:30" value="555.0">
+        <i-cell title="显示箭头" label="2019年3月1日11:29:30" value="555.0" is-link url="/pages/detail/main">
           <text>666</text>
         </i-cell>
         <i-cell title="只显示箭头" label="2019年3月1日11:29:30" value="555.0">
@@ -112,4 +112,5 @@ a {
   padding-top: 0.3rem;
   padding-left: 0.3rem;
 }
+
 </style>

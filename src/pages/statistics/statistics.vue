@@ -160,14 +160,13 @@ export default {
     bottom: 0px;
     left: 0px;
     width: 100%;
-    height: 11.5rem;
+    height: 11rem;
     padding-top: 0.13513513513513514rem;
     font-size: 0.7567567567567568rem;
   }
   .cont swiper-item {
 
   }
-
   .cont ::-webkit-scrollbar {
     width: 0;
     height: 0;

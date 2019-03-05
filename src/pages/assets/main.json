@@ -1,0 +1,9 @@
+{
+    "navigationBarTitleText": "资产",
+    "usingComponents": {
+      "i-cell-group": "../../static/iView/cell-group/index",
+      "i-cell": "../../static/iView/cell/index",
+      "i-button": "../../static/iView/button/index",
+      "i-panel": "../../static/iView/panel/index"
+    }
+  }
