@@ -12,26 +12,22 @@
         </span>
       </div>
       <div class="bot">
-        <span>总负债:</span>
         <span>近七日日均消费:</span>
         <span>近一月日均消费:</span>
       </div>
     </div>
     <div class="bottom">
-      <i-cell-group>
-        <i-cell title="显示箭头" value="555.0" is-link url="/pages/detail/main">
-           <img src="https://i.loli.net/2017/08/21/599a521472424.jpg"/>
-        </i-cell>
-        <i-cell title="只显示箭头" label="2019年3月1日11:29:30" value="555.0">
-          <text>666</text>
-        </i-cell>
-        <i-cell title="只显示箭头" label="2019年3月1日11:29:30" value="555.0">
-          <text>666</text>
-        </i-cell>
-      </i-cell-group>
-      <i-avatar size="large" shape="square">A</i-avatar>
+      <ul>
+        <li ><img src="../../assets/money.png">现金<span>0</span></li>
+        <li><img src="../../assets/bank.png">银行卡<span>0</span></li>
+        <li><img src="../../assets/card.png">信用卡<span>0</span></li>
+        <li><img src="../../assets/ali.png">支付宝<span>0</span></li>
+        <li><img src="../../assets/weixin.png">微信钱包<span>0</span></li>
+        <li><img src="../../assets/huabei.png">花呗<span>0</span></li>
+        <li><img src="../../assets/baitiao.png">京东白条<span>0</span></li>
+        <li><img src="../../assets/qita.png">其它<span>0</span></li>
+      </ul>
 
-      <i-avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" ></i-avatar>
     </div>
   </div>
 </template>
@@ -61,5 +57,22 @@ export default {
  img{
     width: 2rem;
     height: 2rem;
+  }
+  .bottom ul li{
+    height: 1rem;
+    line-height: 1rem;
+    padding-left: 0.3rem;
+    margin-top: 0.1rem;
+    background-color: white;
+  }
+  .bottom ul li img{
+    vertical-align: middle;
+    height:1rem;
+    width: 1rem;
+    padding-right: 0.2rem;
+  }
+  .bottom ul li span{
+    float: right;
+    padding-right: 0.5rem;
   }
 </style>
