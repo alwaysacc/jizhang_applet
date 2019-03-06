@@ -10,7 +10,7 @@
 	},
 	"miniprogramRoot": "dist/wx/",
 	"compileType": "miniprogram",
-	"appid": "wx5a744a18e81fecff",
+	"appid": "wx85f976953a1cbde1",
 	"projectname": "jizhang_applet",
 	"condition": {
 		"search": {

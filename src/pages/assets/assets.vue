@@ -45,8 +45,8 @@ export default {
     background-color: white;
   }
 .top{
-  padding-top: 0.2rem;
-  font-size: 0.5rem;
+  padding-top: 0.4rem;
+  font-size: 0.4rem;
   text-align: center;
   padding-bottom: 0.6rem;
 }
@@ -59,7 +59,7 @@ export default {
     height: 2rem;
   }
   .bottom ul li{
-    height: 1rem;
+    height: 1.2rem;
     line-height: 1rem;
     padding-left: 0.3rem;
     margin-top: 0.1rem;
