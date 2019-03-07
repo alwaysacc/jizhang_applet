@@ -70,6 +70,7 @@
         <i-button @click="addTransfer" type="primary" size="large">保存</i-button>
         <i-toast id="toast" />
       </div>
+
     </div>
   </div>
 </template>
@@ -83,10 +84,17 @@ export default {
       tab1: true,
       tab2: '',
       tab3: '',
-      value: 0.00,
-      beizhu: ' ',
-      startDate: '',
       visible4: false,
+      income: {
+        amount: '',
+        category: '',
+        address: '',
+        dates: '',
+        remarks: '',
+        type: '',
+        account: '',
+        userId: ''
+      },
       actions4: [
         {
           name: '按钮1'

@@ -23,7 +23,7 @@
         <li>消费报表<span><img class="img2" src="../../assets/you.png"/></span></li>
         <li>反馈建议<span><img class="img2" src="../../assets/you.png"/></span></li>
         <li>关于我<span><img class="img2" src="../../assets/you.png"/></span></li>
-        <li>推荐给朋友<span><img class="img2" src="../../assets/you.png"/></span></li>
+        <li @click="onGotUserInfo">推荐给朋友<span><img class="img2" src="../../assets/you.png"/></span></li>
       </ul>
     </div>
   </div>
@@ -35,7 +35,13 @@ export default {
   name: 'user',
   methods: {
     onGotUserInfo (e) {
-      console.log(e)
+      this.$http.post({
+        url: 'ww/list',
+        data: {},
+        success: function (res) {
+          console.log(res)
+        }
+      })
     }
   },
   onLoad: function (options) {
