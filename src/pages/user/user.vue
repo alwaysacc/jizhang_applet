@@ -36,7 +36,7 @@ export default {
   methods: {
     onGotUserInfo (e) {
       this.$http.post({
-        url: 'ww/list',
+        url: 'income/list',
         data: {},
         success: function (res) {
           console.log(res)

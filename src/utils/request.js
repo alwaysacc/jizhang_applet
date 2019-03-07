@@ -10,11 +10,11 @@ function request (url, method, data, header = {}) {
       method: method,
       data: data,
       headers: {
-        'content-type': 'application/json' // 默认值
+        'content-type': 'application/x-www-form-urlencoded' // 默认值
       },
       success: function (res) {
         wx.hideLoading()
-        resolve(res.data)
+        resolve(res)
       },
       fail: function (res) {
         wx.hideLoading()

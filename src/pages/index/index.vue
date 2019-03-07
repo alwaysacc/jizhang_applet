@@ -53,7 +53,6 @@ export default {
   },
   components: {
   },
-
   methods: {
     bindViewTap () {
       const url = '../logs/main'
@@ -74,6 +73,25 @@ export default {
   },
   created () {
     // let app = getApp()
+    wx.getSetting({
+      success (res) {
+        if (res.authSetting['scope.userInfo']) {
+          const url = '../start/main'
+          mpvue.switchTab({ url })
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+          wx.getUserInfo({
+            success (res) {
+              console.log(res.userInfo)
+            }
+          })
+        } else {
+          const url = '../start/main'
+          mpvue.navigateTo({ url })
+        }
+      }
+    })
+  },
+  onload () {
   }
 }
 </script>
