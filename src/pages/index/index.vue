@@ -69,21 +69,43 @@ export default {
     addincome () {
       const url = '../addincome/main'
       mpvue.navigateTo({ url })
+    },
+    login () {
+      var t = this
+      wx.login({success: function (res) {
+        console.log(res)
+        if (res.code) {
+          t.$http.post({
+            url: 'user/dologin',
+            data: {
+              code: res.code
+            }
+          }).then(res => {
+            console.log('!!!')
+            console.log(res.data.data)
+            wx.setStorage({
+              key: 'user',
+              data: res.data.data
+            })
+          })
+          // 把获取到的code通过一个request的请求发给java服务器
+        }
+      }
+      })
     }
   },
   created () {
-    // let app = getApp()
+    // let app = getApp()\
+    var t = this
     wx.getSetting({
       success (res) {
         if (res.authSetting['scope.userInfo']) {
-          const url = '../start/main'
-          mpvue.switchTab({ url })
+          const res = wx.getStorageInfoSync()
+          var num = res.keys.indexOf('user')
+          if (num === -1) {
+            t.login()
+          }
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-          wx.getUserInfo({
-            success (res) {
-              console.log(res.userInfo)
-            }
-          })
         } else {
           const url = '../start/main'
           mpvue.navigateTo({ url })

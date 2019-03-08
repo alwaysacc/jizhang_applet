@@ -3,7 +3,7 @@
     <span>{{span}}</span>
 
     <button  open-type="getUserInfo" lang="zh_CN" @getuserinfo="onGotUserInfo">{{button}}</button>
-    <button @click="d">123</button>
+    <button @click="w">123</button>
   </div>
 </template>
 
@@ -18,20 +18,27 @@ export default {
   },
   methods: {
     onGotUserInfo: function (e) {
+      var t = this
+      console.log(e)
       if (e.mp.detail.iv) {
-        const url = '../index/main'
-        mpvue.navigateTo({ url })
         wx.login({
-          success (res) {
+          success: function (res) {
             console.log(res)
             if (res.code) {
-              this.$http.post({
-                url: 'income/add',
+              t.$http.post({
+                url: 'user/login',
                 data: {
-                },
-                success: function (res) {
-                  console.log(res)
+                  code: res.code,
+                  rawData: e.mp.detail.rawData,
+                  signature: e.mp.detail.signature,
+                  encrypteData: e.mp.detail.encryptedData,
+                  iv: e.mp.detail.iv
                 }
+              }).then(res => {
+                console.log('!!!')
+                console.log(res)
+                const url = '../index/main'
+                mpvue.switchTab({ url })
               })
               // 把获取到的code通过一个request的请求发给java服务器
             }
@@ -43,41 +50,13 @@ export default {
     },
     w () {
       this.$http.post({
-        url: 'income/list',
-        data: {},
-        success: function (res) {
-          console.log(1)
-          console.log(res)
-        },
-        fail: function (res) {
-          console.log(2)
-          console.log(res)
-          // reject(false)
-        },
-        complete: function () {
-          console.log(3)
+        url: 'user/a',
+        data: {
+          code: '123',
+          a: 'asd'
         }
-      })
-    },
-    d () {
-      wx.request({
-        url: 'http://localhost:8082/income/list', // 仅为示例，并非真实的接口地址
-        method: 'POST',
-        data: {},
-        headers: {
-          'content-type': 'application/x-www-form-urlencoded' // 默认值
-        },
-        success: function (res) {
-          console.log(res)
-          console.log(1)
-        },
-        fail: function (res) {
-          console.log(res)
-          // reject(false)
-        },
-        complete: function () {
-          wx.hideLoading()
-        }
+      }).then(res => {
+        console.log(res)
       })
     }
   }

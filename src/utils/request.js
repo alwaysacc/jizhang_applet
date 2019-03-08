@@ -1,6 +1,6 @@
 const host = 'http://localhost:8082/'
 
-function request (url, method, data, header = {}) {
+function request (url, method, data) {
   wx.showLoading({
     title: '加载中' // 数据请求前loading
   })
@@ -9,8 +9,8 @@ function request (url, method, data, header = {}) {
       url: host + url, // 仅为示例，并非真实的接口地址
       method: method,
       data: data,
-      headers: {
-        'content-type': 'application/x-www-form-urlencoded' // 默认值
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
       },
       success: function (res) {
         wx.hideLoading()
@@ -18,7 +18,7 @@ function request (url, method, data, header = {}) {
       },
       fail: function (res) {
         wx.hideLoading()
-        // reject(false)
+        reject(res)
       },
       complete: function () {
         wx.hideLoading()

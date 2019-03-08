@@ -11,22 +11,22 @@
     </i-tabs>
     <div class="center">
       <div v-if="tab1" class="tab1">
-        <input type="number" v-model="value"  class="input"/>
-        <i-grid>
-          <i-grid-item>一日三餐</i-grid-item>
+        <input type="number" v-model="income.amount"  class="input"/>
+        <i-grid @click="a">
+          <i-grid-item >一日三餐</i-grid-item>
           <i-grid-item>交通出行</i-grid-item>
           <i-grid-item>其他</i-grid-item>
         </i-grid>
-        <i-input value="lue3" type="textarea" title="备注：" placeholder="请输入详细地址(最多50字)" maxlength="50" />
-        <i-input value="alue4" title="地址：" type="text"  />
-        <i-input value="alue4" title="账户：" type="text"  @click="zhanghu"/>
+        <i-input :value="income.remarks" type="textarea" title="备注：" placeholder="请输入备注" maxlength="50" />
+        <i-input :value="income.address" title="地址：" type="text"  />
+        <i-input :value="income.account" title="账户：" type="text"  @click="zhanghu"/>
         <i-modal :visible="visible4" :actions="actions4" action-mode="vertical" @click="handleClick4">
         </i-modal>
         <picker mode="date"
-                :value="startDate"
+                :value="income.dates"
                 :start="pickerStart" end="2217-09-01" @change="bindDateChangeStart($event)">
           <div class="index_picker">
-            <i-input :value="startDate" title="时间："  />
+            <i-input :value="income.dates" title="时间："  />
           </div>
         </picker>
         <i-button @click="addOutlay" type="primary" size="large">保存</i-button>
@@ -54,10 +54,10 @@
       </div>
       <div v-if="tab3">
         <input type="number" v-model="value"  class="input"/>
-        <i-input value="alue4" title="收款人" type="text"  />
-        <i-input value="lue3" type="textarea" title="备注：" placeholder="请输入详细地址(最多50字)" maxlength="50" />
-        <i-input value="alue4" title="地址：" type="text"  />
-        <i-input value="alue4" title="账户：" type="text"  @click="zhanghu"/>
+        <i-input :value="alue4" title="收款人" type="text"  />
+        <i-input :value="lue3" type="textarea" title="备注：" placeholder="请输入详细地址(最多50字)" maxlength="50" />
+        <i-input :value="income.address" title="地址：" type="text"  />
+        <i-input :value="alue4" title="账户：" type="text"  @click="zhanghu"/>
         <i-modal :visible="visible4" :actions="actions4" action-mode="vertical" @click="handleClick4">
         </i-modal>
         <picker mode="date"
@@ -93,7 +93,7 @@ export default {
         remarks: '',
         type: '',
         account: '',
-        userId: ''
+        id: ''
       },
       actions4: [
         {
@@ -120,7 +120,7 @@ export default {
   },
   mounted () {
     let today = this.getToday()
-    this.startDate = today
+    this.income.dates = today
   },
 
   methods: {
@@ -165,7 +165,7 @@ export default {
     },
     bindDateChangeStart (e) {
       var this_ = this
-      this_.startDate = e.mp.detail.value
+      this_.income.dates = e.mp.detail.value
       console.log(e)
     },
     zhanghu () {
@@ -176,7 +176,18 @@ export default {
       console.log(e)
     },
     addOutlay () {
-      console.log(1)
+      var t = this
+      const value = wx.getStorageSync('user')
+      t.income.id = value.id
+      t.$http.post({
+        url: 'user/11123',
+        data: {
+          income: t.income
+        }
+      }).then(res => {
+        console.log(res)
+        console.log(t.income)
+      })
       $Toast({
         content: '成功的提示',
         type: 'success'
@@ -195,6 +206,11 @@ export default {
         content: '成功的提示',
         type: 'success'
       })
+    },
+    a (e) {
+      console.log(e.mp._relatedInfo.anchorTargetText)
+      console.log(this.income.amount)
+      this.income.account = e.mp._relatedInfo.anchorTargetText
     }
   }
 }
