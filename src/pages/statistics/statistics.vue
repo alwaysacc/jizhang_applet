@@ -12,25 +12,25 @@
           <swiper-item>
             <div class="item">
               <top :msg="msg1"></top>
-              <clist :list="today"></clist>
+              <clist :list="list"></clist>
             </div>
           </swiper-item>
           <swiper-item>
             <div class="item">
               <top :msg="msg2"></top>
-              <clist :list="today"></clist>
+              <clist :list="list"></clist>
             </div>
           </swiper-item>
           <swiper-item>
             <div class="item">
               <top :msg="msg3"></top>
-              <clist :list="today"></clist>
+              <clist :list="list"></clist>
             </div>
           </swiper-item>
           <swiper-item>
             <div class="item">
               <top :msg="msg4"></top>
-              <clist :list="today"></clist>
+              <clist :list="list"></clist>
             </div>
           </swiper-item>
         </swiper>
@@ -51,7 +51,7 @@ export default {
       msg3: '月',
       msg4: '年',
       currentTab: '0',
-      today: [
+      list: [
         {
           category: '123',
           date: '2019年3月1日11:29:30',
@@ -94,7 +94,8 @@ export default {
           amount: '120',
           remarks: '666'
         }
-      ]
+      ],
+      by: '天'
     }
   },
   components: {
@@ -103,17 +104,56 @@ export default {
   },
   methods: {
     switchTab: function (prompt, res) {
+      var t = this
       // console.log(prompt,res);
-      let oIndex = res.mp.currentTarget.dataset.current
+      var oIndex = res.mp.currentTarget.dataset.current
       this.currentTab = oIndex
+      console.log(oIndex)
+      switch (oIndex) {
+        case '0':
+          t.by = '天'
+          console.log(t.by)
+          break
+        case '1':
+          t.by = '周'
+          console.log(t.by)
+          break
+        case '2':
+          t.by = '月'
+          console.log(t.by)
+          break
+        case '3':
+          t.by = '年'
+      }
+      t.getListByUserid()
     },
     switchItem: function (prompt, res) {
       // console.log(prompt,res.mp.detail.current);
       let oIndex = res.mp.detail.current
       this.currentTab = oIndex
+    },
+    getListByUserid () {
+      var t = this
+      t.$http.post({
+        url: 'income/getListByUserid',
+        data: {
+          by: t.by,
+          userid: wx.getStorageSync('user').id
+        }
+      }).then(res => {
+        if (res.data.code === 200) {
+          t.list = []
+          t.list = res.data.data
+        }
+        console.log(res.data.data)
+        console.log(t.list)
+      })
     }
   },
   created () {
+  },
+  onReady  () {
+    this.getListByUserid()
   }
 
 }

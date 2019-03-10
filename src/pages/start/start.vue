@@ -37,6 +37,10 @@ export default {
               }).then(res => {
                 console.log('!!!')
                 console.log(res)
+                wx.setStorage({
+                  key: 'user',
+                  data: res.data.data.userInfo
+                })
                 const url = '../index/main'
                 mpvue.switchTab({ url })
               })

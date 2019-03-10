@@ -2,7 +2,7 @@
   <div>
     <scroll-view :style="{'height': '350px'}" :scroll-y="true" @scrolltolower="scrolltolower" @scroll="scroll">
     <i-cell-group>
-      <i-cell v-for="t in list" :key="index"  :title="t.category" :label="t.date" :value="t.amount"  is-link url="/pages/detail/main">
+      <i-cell v-for="t in list" :key="index"  :title="t.category" :label="t.dates" :value="t.amount"  is-link url="/pages/detail/main">
         <text>{{t.remarks}}</text>
       </i-cell>
     </i-cell-group>

@@ -12,62 +12,64 @@
     <div class="center">
       <div v-if="tab1" class="tab1">
         <input type="number" v-model="income.amount"  class="input"/>
-        <i-grid @click="a">
+        <i-grid @click="setCategory">
           <i-grid-item >一日三餐</i-grid-item>
           <i-grid-item>交通出行</i-grid-item>
           <i-grid-item>其他</i-grid-item>
         </i-grid>
-        <i-input :value="income.remarks" type="textarea" title="备注：" placeholder="请输入备注" maxlength="50" />
-        <i-input :value="income.address" title="地址：" type="text"  />
-        <i-input :value="income.account" title="账户：" type="text"  @click="zhanghu"/>
+        <i-input v-model="income.remarks" type="textarea" @change="setRemarks" title="备注：" placeholder="请输入备注"/>
+        <i-input v-model="income.address" title="地址：" type="textarea" @change="setAddress"  placeholder="请输入备注"/>
+        <i-input v-model="income.account" title="账户：" type="text"  @click="zhanghu"/>
         <i-modal :visible="visible4" :actions="actions4" action-mode="vertical" @click="handleClick4">
         </i-modal>
         <picker mode="date"
                 :value="income.dates"
                 :start="pickerStart" end="2217-09-01" @change="bindDateChangeStart($event)">
           <div class="index_picker">
-            <i-input :value="income.dates" title="时间："  />
+            <i-input :value="income.dates" title="时间："></i-input>
           </div>
         </picker>
         <i-button @click="addOutlay" type="primary" size="large">保存</i-button>
         <i-toast id="toast" />
       </div>
       <div v-if="tab2">
-        <input type="number" v-model="value"  class="input"/>
-        <i-grid>
+        <input type="number" v-model="income.amount"  class="input"/>
+        <i-grid @click="setCategory">
           <i-grid-item>工资</i-grid-item>
           <i-grid-item>理财</i-grid-item>
           <i-grid-item>其他</i-grid-item>
         </i-grid>
-        <i-input value="lue3" type="textarea" title="备注：" placeholder="请输入详细地址(最多50字)" maxlength="50" />
-        <i-input value="alue4" title="地址：" type="text"  />
-        <i-input value="alue4" title="账户：" type="text"  />
-        <picker mode="date"
-                :value="startDate"
-                :start="pickerStart" end="2217-09-01" @change="bindDateChangeStart($event)">
-          <div class="index_picker">
-            <i-input :value="startDate" title="时间："  />
-          </div>
-        </picker>
-        <i-button @click="addIncome" type="primary" size="large">保存</i-button>
-        <i-toast id="toast" />
-      </div>
-      <div v-if="tab3">
-        <input type="number" v-model="value"  class="input"/>
-        <i-input :value="alue4" title="收款人" type="text"  />
-        <i-input :value="lue3" type="textarea" title="备注：" placeholder="请输入详细地址(最多50字)" maxlength="50" />
-        <i-input :value="income.address" title="地址：" type="text"  />
-        <i-input :value="alue4" title="账户：" type="text"  @click="zhanghu"/>
+        <i-input :bindtap="income.remarks" type="textarea" @change="setRemarks" title="备注：" placeholder="请输入备注"/>
+        <i-input v-model="income.address" title="地址：" type="textarea" @change="setAddress"  placeholder="请输入地址"/>
+        <i-input v-model="income.account" title="账户：" type="text"  @click="zhanghu"/>
         <i-modal :visible="visible4" :actions="actions4" action-mode="vertical" @click="handleClick4">
         </i-modal>
         <picker mode="date"
-                :value="startDate"
-                :start="startDate" end="2217-09-01" @change="bindDateChangeStart($event)">
+                :value="income.dates"
+                :start="pickerStart" end="2217-09-01" @change="bindDateChangeStart($event)">
           <div class="index_picker">
-            <i-input :value="startDate" title="时间："  />
+            <i-input :value="income.dates" title="时间："></i-input>
           </div>
         </picker>
-        <i-button @click="addTransfer" type="primary" size="large">保存</i-button>
+        <i-button @click="addOutlay" type="primary" size="large">保存</i-button>
+        <i-toast id="toast" />
+      </div>
+      <div v-if="tab3">
+        <input type="number" v-model="income.amount"  class="input"/>
+        <i-input :value="income.category" title="收款人" type="text"  />
+        <i-input :bindtap="income.remarks" type="textarea" @change="setRemarks" title="备注：" placeholder="请输入备注"/>
+        <i-input v-model="income.address" title="地址：" type="textarea" @change="setAddress"  placeholder="请输入地址"/>
+        <i-input v-model="income.account" title="账户：" type="text"  @click="zhanghu"/>
+        <i-modal :visible="visible4" :actions="actions4" action-mode="vertical" @click="handleClick4">
+        </i-modal>
+        <picker mode="date"
+                :value="income.dates"
+                :start="pickerStart" end="2217-09-01" @change="bindDateChangeStart($event)">
+          <div class="index_picker">
+            <i-input :value="income.dates" title="时间："></i-input>
+          </div>
+        </picker>
+        <i-button @click="addOutlay" type="primary" size="large">保存</i-button>
         <i-toast id="toast" />
       </div>
 
@@ -91,9 +93,9 @@ export default {
         address: '',
         dates: '',
         remarks: '',
-        type: '',
-        account: '',
-        id: ''
+        type: 1,
+        account: '123',
+        userid: ''
       },
       actions4: [
         {
@@ -129,18 +131,21 @@ export default {
       switch (detail.mp.detail.key) {
         case 'tab1':
           this.current = 'tab1'
+          this.income.type = 1
           this.tab1 = true
           this.tab3 = false
           this.tab2 = false
           break
         case 'tab2':
           this.current = 'tab2'
+          this.income.type = 2
           this.tab2 = true
           this.tab1 = false
           this.tab3 = false
           break
         case 'tab3':
           this.current = 'tab3'
+          this.income.type = 3
           this.tab3 = true
           this.tab1 = false
           this.tab2 = false
@@ -175,42 +180,46 @@ export default {
       this.visible4 = false
       console.log(e)
     },
+    // 添加支出
     addOutlay () {
       var t = this
-      const value = wx.getStorageSync('user')
-      t.income.id = value.id
+      const user = wx.getStorageSync('user')
+      t.income.userid = user.id
+      console.log(t.income)
       t.$http.post({
-        url: 'user/11123',
+        url: 'income/add',
         data: {
-          income: t.income
+          incomeOutlay: JSON.stringify(t.income)
         }
       }).then(res => {
         console.log(res)
-        console.log(t.income)
-      })
-      $Toast({
-        content: '成功的提示',
-        type: 'success'
-      })
-    },
-    addIncome () {
-      console.log(1)
-      $Toast({
-        content: '成功的提示',
-        type: 'success'
-      })
-    },
-    addTransfer () {
-      console.log(1)
-      $Toast({
-        content: '成功的提示',
-        type: 'success'
+        if (res.data.code === 200) {
+          $Toast({
+            content: '成功',
+            type: 'success'
+          })
+          t.income.remarks = ''
+          t.income.category = ''
+          t.income.address = ''
+          t.income.amount = ''
+        } else {
+          $Toast({
+            content: '请重试',
+            type: 'info'
+          })
+        }
       })
     },
-    a (e) {
-      console.log(e.mp._relatedInfo.anchorTargetText)
-      console.log(this.income.amount)
-      this.income.account = e.mp._relatedInfo.anchorTargetText
+    setCategory (e) {
+      this.income.category = e.mp._relatedInfo.anchorTargetText
+    },
+    setRemarks (e) {
+      console.log(e.mp.detail.detail.value)
+      this.income.remarks = e.mp.detail.detail.value
+    },
+    setAddress (e) {
+      console.log(e.mp.detail.detail.value)
+      this.income.address = e.mp.detail.detail.value
     }
   }
 }

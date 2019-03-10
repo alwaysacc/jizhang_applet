@@ -26,17 +26,12 @@
         </span>
       </div>
       <i-cell-group>
-        <i-cell title="显示箭头" label="2019年3月1日11:29:30" value="555.0" is-link url="/pages/detail/main">
-          <text>666</text>
-        </i-cell>
-        <i-cell title="只显示箭头" label="2019年3月1日11:29:30" value="555.0">
-          <text>666</text>
-        </i-cell>
-        <i-cell title="只显示箭头" label="2019年3月1日11:29:30" value="555.0">
-          <text>666</text>
+        <i-cell v-for="i in income" :key="index" :title="i.category" :label="i.dates" :value="i.amount" is-link url="/pages/detail/main">
+          <text>{{i.remarks}}</text>
         </i-cell>
       </i-cell-group>
     </div>
+    <i-load-more tip="已加载完毕" :loading="false" v-if="line"/>
   </div>
 </template>
 
@@ -44,11 +39,11 @@
 export default {
   data () {
     return {
-      motto: 'Hello miniprograme',
-      userInfo: {
-        nickName: 'mpvue',
-        avatarUrl: 'http://mpvue.com/assets/logo.png'
-      }
+      income: [],
+      page: 1,
+      size: 5,
+      maxpage: '',
+      line: false
     }
   },
   components: {
@@ -92,6 +87,23 @@ export default {
         }
       }
       })
+    },
+    getList () {
+      var t = this
+      t.$http.post({
+        url: 'income/list',
+        data: {
+          page: t.page,
+          size: t.size,
+          userid: wx.getStorageSync('user').id
+        }
+      }).then(res => {
+        console.log(t.income)
+        console.log(res)
+        t.income = t.income.concat(res.data.data.list)
+        console.log(t.income)
+        t.maxpage = res.data.data.lastPage
+      })
     }
   },
   created () {
@@ -104,6 +116,8 @@ export default {
           var num = res.keys.indexOf('user')
           if (num === -1) {
             t.login()
+          } else {
+            t.getList()
           }
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称
         } else {
@@ -112,6 +126,17 @@ export default {
         }
       }
     })
+  },
+  onReachBottom () {
+    var t = this
+    // 下拉触底，先判断是否有请求正在进行中
+    // 以及检查当前请求页数是不是小于数据总页数，如符合条件，则发送请求
+    if (!t.loading && t.page < t.maxpage) {
+      t.page = t.page + 1
+      this.getList()
+    } else {
+      t.line = true
+    }
   },
   onload () {
   }
