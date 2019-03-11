@@ -1,8 +1,8 @@
 <template>
   <div>
-    <scroll-view :style="{'height': '10rem'}" :scroll-y="true" @scrolltolower="scrolltolower" @scroll="scroll">
+    <scroll-view :style="{'height': '15rem'}" :scroll-y="true" @scrolltolower="scrolltolower" @scroll="scroll">
     <i-cell-group>
-      <i-cell v-for="t in list" :key="index"  :title="t.category" :label="t.dates" :value="t.amount"  is-link url="/pages/detail/main">
+      <i-cell v-for="t in list" :key="index"  :title="t.category" :label="t.dates" :value="t.amount" @click="toDetail(t.id,t.type)"  is-link>
         <text>{{t.remarks}}</text>
       </i-cell>
     </i-cell-group>
@@ -20,6 +20,12 @@ export default {
     scroll (e) {
       console.log(6)
       console.log(e)
+    },
+    toDetail (e1, e2) {
+      const url = '../detail/main?id=' + e1 + '&&type=' + e2
+      mpvue.navigateTo({ url })
+      console.log(e1)
+      console.log(e2)
     }
 
   }

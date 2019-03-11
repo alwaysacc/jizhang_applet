@@ -19,8 +19,8 @@
         </i-grid>
         <i-input v-model="income.remarks" type="text" @change="setRemarks" title="备注：" maxlength="20" placeholder="请输入备注"/>
         <i-input v-model="income.address" title="地址：" type="text" @change="setAddress" maxlength="20"  placeholder="请输入备注"/>
-        <i-input v-model="income.account" title="账户：" type="text"  @click="zhanghu"/>
-        <i-modal :visible="visible4" :actions="actions4" action-mode="vertical" @click="handleClick4">
+        <i-input v-model="account" title="账户：" type="text"  @click="zhanghu"/>
+        <i-modal :visible="visible4" :actions="actions4" action-mode="vertical" @click="setAccount">
         </i-modal>
         <picker mode="date"
                 :value="income.dates"
@@ -41,8 +41,8 @@
         </i-grid>
         <i-input v-model="income.remarks" type="textarea" @change="setRemarks" title="备注：" placeholder="请输入备注"/>
         <i-input v-model="income.address" title="地址：" type="textarea" @change="setAddress"  placeholder="请输入地址"/>
-        <i-input v-model="income.account" title="账户：" type="text"  @click="zhanghu"/>
-        <i-modal :visible="visible4" :actions="actions4" action-mode="vertical" @click="handleClick4">
+        <i-input v-model="account" title="账户：" type="text"  @click="zhanghu"/>
+        <i-modal :visible="visible4" :actions="actions4" action-mode="vertical" @click="setAccount">
         </i-modal>
         <picker mode="date"
                 :value="income.dates"
@@ -59,8 +59,8 @@
         <i-input :value="income.category" title="收款人" type="text"  />
         <i-input :bindtap="income.remarks" type="textarea" @change="setRemarks" title="备注：" placeholder="请输入备注"/>
         <i-input v-model="income.address" title="地址：" type="textarea" @change="setAddress"  placeholder="请输入地址"/>
-        <i-input v-model="income.account" title="账户：" type="text"  @click="zhanghu"/>
-        <i-modal :visible="visible4" :actions="actions4" action-mode="vertical" @click="handleClick4">
+        <i-input v-model="account" title="账户：" type="text"  @click="zhanghu"/>
+        <i-modal :visible="visible4" :actions="actions4" action-mode="vertical" @click="setAccount">
         </i-modal>
         <picker mode="date"
                 :value="income.dates"
@@ -97,17 +97,25 @@ export default {
         account: '123',
         userid: ''
       },
+      account: '花呗',
       actions4: [
         {
-          name: '按钮1'
+          name: '现金'
         },
         {
-          name: '按钮2',
-          color: '#ff9900'
+          name: '支付宝'
         },
         {
-          name: '按钮3',
-          icon: 'search'
+          name: '微信钱包'
+        },
+        {
+          name: '银行卡'
+        },
+        {
+          name: '信用卡'
+        },
+        {
+          name: '花呗'
         }
       ]
 
@@ -176,8 +184,10 @@ export default {
     zhanghu () {
       this.visible4 = true
     },
-    handleClick4 (e) {
+    setAccount (e) {
       this.visible4 = false
+      this.account = e.mp._relatedInfo.anchorRelatedText
+      this.income.account = e.mp._relatedInfo.anchorRelatedText
       console.log(e)
     },
     // 添加支出

@@ -25,11 +25,15 @@
           <text>收入:0</text>
         </span>
       </div>
-      <i-cell-group>
-        <i-cell v-for="i in income" :key="index" :title="i.category" :label="i.dates" :value="i.amount" is-link url="/pages/detail/main">
-          <text>{{i.remarks}}</text>
+      <i-cell-group v-if="!showdiv">
+        <i-cell v-for="t in income" :key="index"  :title="t.category" :label="t.dates" :value="t.amount" @click="toDetail(t.id)"  is-link>
+          <text>{{t.remarks}}</text>
         </i-cell>
       </i-cell-group>
+      <div class="none" v-if="showdiv">
+        <p>什么都没有呢</p>
+        <button @click="addincome">记一笔</button>
+      </div>
     </div>
     <i-load-more tip="已加载完毕" :loading="false" v-if="line"/>
   </div>
@@ -43,7 +47,8 @@ export default {
       page: 1,
       size: 5,
       maxpage: '',
-      line: false
+      line: false,
+      showdiv: false
     }
   },
   components: {
@@ -98,12 +103,21 @@ export default {
           userid: wx.getStorageSync('user').id
         }
       }).then(res => {
+        t.income = t.income.concat(res.data.data.list)
+        if (t.income.length === 0) {
+          t.showdiv = true
+          console.log(111111111)
+        }
         console.log(t.income)
         console.log(res)
-        t.income = t.income.concat(res.data.data.list)
         console.log(t.income)
         t.maxpage = res.data.data.lastPage
       })
+    },
+    toDetail (e) {
+      const url = '../detail/main?id=' + e
+      mpvue.navigateTo({ url })
+      console.log(e)
     }
   },
   created () {
@@ -177,5 +191,24 @@ a {
   padding-top: 0.3rem;
   padding-left: 0.3rem;
 }
-
+.none{
+  text-align: center;
+  height: 3rem;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.none p{
+  color: darkgrey;
+  font-size: 0.3rem;
+  padding-top: 2rem;
+}
+.none button{
+  background-color: #fa7a1f;
+  width: 3rem;
+  margin-top: 0.2rem;
+}
 </style>
