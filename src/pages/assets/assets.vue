@@ -18,61 +18,154 @@
     </div>
     <div class="bottom">
       <ul>
-        <li ><img src="../../assets/money.png">现金<span>0</span></li>
-        <li><img src="../../assets/bank.png">银行卡<span>0</span></li>
-        <li><img src="../../assets/card.png">信用卡<span>0</span></li>
-        <li><img src="../../assets/ali.png">支付宝<span>0</span></li>
-        <li><img src="../../assets/weixin.png">微信钱包<span>0</span></li>
-        <li><img src="../../assets/huabei.png">花呗<span>0</span></li>
-        <li><img src="../../assets/baitiao.png">京东白条<span>0</span></li>
-        <li><img src="../../assets/qita.png">其它<span>0</span></li>
+        <li @click="goupdate"><img src="../../assets/money.png">现金<span>{{list.money}}</span></li>
+        <li @click="goupdate"><img src="../../assets/bank.png">银行卡<span>{{list.bank}}</span></li>
+        <li @click="goupdate"><img src="../../assets/card.png">信用卡<span>{{list.credit}}</span></li>
+        <li @click="goupdate"><img src="../../assets/ali.png">支付宝<span>{{list.alipay}}</span></li>
+        <li @click="goupdate"><img src="../../assets/weixin.png">微信钱包<span>{{list.wechat}}</span></li>
+        <li @click="goupdate"><img src="../../assets/huabei.png">花呗<span>{{list.huabei}}</span></li>
+        <li @click="goupdate"><img src="../../assets/baitiao.png">京东白条<span>{{list.jingdong}}</span></li>
+        <li @click="goupdate"><img src="../../assets/qita.png">其它<span>{{list.other}}</span></li>
       </ul>
+      <i-modal title="修改账户金额" :visible="visible1" @ok="update" @cancel="handleClose">
+        <div style="text-align: center">
+          <input type="number" v-model="num"  class="input" @click="clearInput"/>
+        </div>
+        <i-toast id="toast" />
+      </i-modal>
 
     </div>
   </div>
 </template>
 
 <script>
+import {$Toast} from '../../../static/iView/base/index'
 export default {
-  name: 'assets'
+  name: 'assets',
+  data () {
+    return {
+      visible1: false,
+      a: 123,
+      list: '',
+      num: '',
+      column: '好好'
+    }
+  },
+  components: {
+    $Toast
+  },
+  methods: {
+    clearInput () {
+      console.log(11111)
+      this.num = ''
+    },
+    setNum (e) {
+      console.log(e)
+    },
+    goupdate (e) {
+      this.visible1 = true
+      this.num = e.mp._relatedInfo.anchorTargetText.replace(/[^0-9..]/ig, '')
+      this.column = e.mp._relatedInfo.anchorTargetText.replace(/\d+/g, '')
+      console.log(e.mp._relatedInfo.anchorTargetText.replace(/[^0-9]/ig, ''))
+      console.log(e.mp._relatedInfo.anchorTargetText.replace())
+      console.log(e)
+    },
+    update () {
+      var t = this
+      t.$http.post({
+        url: 'account/update',
+        data: {
+          userid: wx.getStorageSync('user').id,
+          num: t.num,
+          column: t.column
+        }
+      }).then(res => {
+        console.log(res.data)
+        if (res.data.code === 200) {
+          t.getList()
+          $Toast({
+            content: '成功',
+            type: 'success'
+          })
+        } else {
+          $Toast({
+            content: '失败',
+            type: 'info'
+          })
+        }
+      })
+      this.visible1 = false
+    },
+    handleClose () {
+      this.visible1 = false
+    },
+    getList () {
+      var t = this
+      t.$http.post({
+        url: 'account/detail',
+        data: {
+          userid: wx.getStorageSync('user').id
+        }
+      }).then(res => {
+        if (res.data.code === 200) {
+          t.list = res.data.data
+        }
+        console.log(res)
+        console.log(t.list)
+      })
+    }
+  },
+  onReady () {
+    this.getList()
+  }
 }
 </script>
 
 <style scoped>
-  .header{
+  .header {
     text-align: center;
     height: 3rem;
     background-color: white;
   }
-.top{
-  padding-top: 0.4rem;
-  font-size: 0.4rem;
-  text-align: center;
-  padding-bottom: 0.6rem;
-}
-  .header .bot span{
+
+  .top {
+    padding-top: 0.4rem;
+    font-size: 0.4rem;
+    text-align: center;
+    padding-bottom: 0.6rem;
+  }
+
+  .header .bot span {
     display: block;
     font-size: 0.3rem;
   }
- img{
+
+  img {
     width: 2rem;
     height: 2rem;
   }
-  .bottom ul li{
+
+  .bottom ul li {
     height: 1.2rem;
     line-height: 1rem;
     padding-left: 0.3rem;
     margin-top: 0.1rem;
     background-color: white;
+    font-size: 0.3rem;
   }
-  .bottom ul li img{
+
+  .bottom ul li img {
     vertical-align: middle;
-    height:1rem;
+    height: 1rem;
     width: 1rem;
     padding-right: 0.2rem;
   }
-  .bottom ul li span{
+
+  .bottom ul li span {
     float: right;
     padding-right: 0.5rem;
+  }
+  .input{
+    border-bottom: darkgrey 0.01rem solid;
   }
 </style>

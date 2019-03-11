@@ -1,0 +1,20 @@
+{
+  "usingComponents": {
+    "i-modal": "../../static/iView/modal/index",
+    "i-row": "../../static/iView/row/index",
+    "i-col": "../../static/iView/col/index",
+    "i-tabs": "../../static/iView/tabs/index",
+    "i-tab": "../../static/iView/tab/index",
+    "i-input": "../../static/iView/input/index",
+    "i-panel": "../../static/iView/panel/index",
+    "i-grid": "../../static/iView/grid/index",
+    "i-grid-item": "../../static/iView/grid-item/index",
+    "i-grid-icon": "../../static/iView/grid-icon/index",
+    "i-grid-label": "../../static/iView/grid-label/index",
+    "i-button": "../../static/iView/button/index",
+    "i-modal": "../../static/iView/modal/index",
+    "i-toast": "../../static/iView/toast/index",
+    "i-cell-group": "../../static/iView/cell-group/index",
+    "i-cell": "../../static/iView/cell/index"
+  }
+}

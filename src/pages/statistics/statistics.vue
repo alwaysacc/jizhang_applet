@@ -11,26 +11,42 @@
         <swiper class="cont" @change="switchItem('switchItem',$event)" :current="currentTab" circular="true" skip-hidden-item-layout="true">
           <swiper-item>
             <div class="item">
-              <top :msg="msg1"></top>
-              <clist :list="list"></clist>
+              <top :msg="msg2"></top>
+            </div>
+            <clist :list="list" v-if="!showdiv"></clist>
+            <div class="none" v-if="showdiv">
+              <p>什么都没有呢</p>
+              <button @click="addincome">记一笔</button>
             </div>
           </swiper-item>
           <swiper-item>
             <div class="item">
               <top :msg="msg2"></top>
-              <clist :list="list"></clist>
+              <clist :list="list" v-if="!showdiv"></clist>
+              <div class="none" v-if="showdiv">
+                <p>什么都没有呢</p>
+                <button @click="addincome">记一笔</button>
+              </div>
             </div>
           </swiper-item>
           <swiper-item>
             <div class="item">
               <top :msg="msg3"></top>
-              <clist :list="list"></clist>
+              <clist :list="list" v-if="!showdiv"></clist>
+              <div class="none" v-if="showdiv">
+                <p>什么都没有呢</p>
+                <button @click="addincome">记一笔</button>
+              </div>
             </div>
           </swiper-item>
           <swiper-item>
             <div class="item">
               <top :msg="msg4"></top>
-              <clist :list="list"></clist>
+              <clist :list="list" v-if="!showdiv"></clist>
+              <div class="none" v-if="showdiv">
+                <p>什么都没有呢</p>
+                <button @click="addincome">记一笔</button>
+              </div>
             </div>
           </swiper-item>
         </swiper>
@@ -52,50 +68,9 @@ export default {
       msg4: '年',
       currentTab: '0',
       list: [
-        {
-          category: '123',
-          date: '2019年3月1日11:29:30',
-          amount: '120',
-          remarks: '666'
-        },
-        {
-          category: '123',
-          date: '2019年3月1日11:29:30',
-          amount: '120',
-          remarks: '666'
-        },
-        {
-          category: '123',
-          date: '2019年3月1日11:29:30',
-          amount: '120',
-          remarks: '666'
-        },
-        {
-          category: '123',
-          date: '2019年3月1日11:29:30',
-          amount: '120',
-          remarks: '666'
-        },
-        {
-          category: '123',
-          date: '2019年3月1日11:29:30',
-          amount: '120',
-          remarks: '666'
-        },
-        {
-          category: '123',
-          date: '2019年3月1日11:29:30',
-          amount: '120',
-          remarks: '666'
-        },
-        {
-          category: '123',
-          date: '2019年3月1日11:29:30',
-          amount: '120',
-          remarks: '666'
-        }
       ],
-      by: '天'
+      by: '天',
+      showdiv: false
     }
   },
   components: {
@@ -144,9 +119,13 @@ export default {
         if (res.data.code === 200) {
           t.list = []
           t.list = res.data.data
+          if (t.list.length === 0) {
+            t.showdiv = true
+            console.log(111111111)
+          }
         }
-        console.log(res.data.data)
-        console.log(t.list)
+        console.log(res.data)
+        console.log(222222)
       })
     }
   },
@@ -210,5 +189,25 @@ export default {
     width: 0;
     height: 0;
     color: transparent;
+  }
+  .none{
+    text-align: center;
+    height: 3rem;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+   }
+  .none p{
+    color: darkgrey;
+    font-size: 0.3rem;
+    padding-top: 2rem;
+  }
+  .none button{
+    background-color: #fa7a1f;
+    width: 3rem;
+    margin-top: 0.2rem;
   }
 </style>

@@ -17,8 +17,8 @@
           <i-grid-item>交通出行</i-grid-item>
           <i-grid-item>其他</i-grid-item>
         </i-grid>
-        <i-input v-model="income.remarks" type="textarea" @change="setRemarks" title="备注：" placeholder="请输入备注"/>
-        <i-input v-model="income.address" title="地址：" type="textarea" @change="setAddress"  placeholder="请输入备注"/>
+        <i-input v-model="income.remarks" type="text" @change="setRemarks" title="备注：" maxlength="20" placeholder="请输入备注"/>
+        <i-input v-model="income.address" title="地址：" type="text" @change="setAddress" maxlength="20"  placeholder="请输入备注"/>
         <i-input v-model="income.account" title="账户：" type="text"  @click="zhanghu"/>
         <i-modal :visible="visible4" :actions="actions4" action-mode="vertical" @click="handleClick4">
         </i-modal>
@@ -39,7 +39,7 @@
           <i-grid-item>理财</i-grid-item>
           <i-grid-item>其他</i-grid-item>
         </i-grid>
-        <i-input :bindtap="income.remarks" type="textarea" @change="setRemarks" title="备注：" placeholder="请输入备注"/>
+        <i-input v-model="income.remarks" type="textarea" @change="setRemarks" title="备注：" placeholder="请输入备注"/>
         <i-input v-model="income.address" title="地址：" type="textarea" @change="setAddress"  placeholder="请输入地址"/>
         <i-input v-model="income.account" title="账户：" type="text"  @click="zhanghu"/>
         <i-modal :visible="visible4" :actions="actions4" action-mode="vertical" @click="handleClick4">
@@ -182,7 +182,7 @@ export default {
     },
     // 添加支出
     addOutlay () {
-      var t = this
+      let t = this
       const user = wx.getStorageSync('user')
       t.income.userid = user.id
       console.log(t.income)
