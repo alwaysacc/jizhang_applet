@@ -1,6 +1,6 @@
 <template>
   <div>
-    <scroll-view :style="{'height': '15rem'}" :scroll-y="true" @scrolltolower="scrolltolower" @scroll="scroll">
+    <scroll-view :style="{'height': 'auto'}" :scroll-y="true" @scrolltolower="scrolltolower" @scroll="scroll">
     <i-cell-group>
       <i-cell v-for="t in list" :key="index"  :title="t.category" :label="t.dates" :value="t.amount" @click="toDetail(t.id,t.type)"  is-link>
         <text>{{t.remarks}}</text>

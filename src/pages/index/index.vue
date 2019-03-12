@@ -153,7 +153,6 @@ export default {
     // 下拉触底，先判断是否有请求正在进行中
     // 以及检查当前请求页数是不是小于数据总页数，如符合条件，则发送请求
     if (!t.loading && t.page < t.maxpage) {
-      console.loe(111111111111111)
       t.page = t.page + 1
       this.getList(1)
     } else {

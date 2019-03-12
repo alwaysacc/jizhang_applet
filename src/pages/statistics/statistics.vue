@@ -10,54 +10,64 @@
         </div>
         <swiper class="cont" @change="switchItem('switchItem',$event)" :current="currentTab" circular="true" skip-hidden-item-layout="true">
           <swiper-item>
+            <scroll-view scroll-y="true" @scrolltolower="a">
             <div class="item">
-              <top :msg="msg2"></top>
+              <top :msg="msg2" :income="zhichu" :outlay="shouru"></top>
             </div>
             <clist :list="list" v-if="!showdiv"></clist>
             <div class="none" v-if="showdiv">
               <p>什么都没有呢</p>
               <button @click="addincome">记一笔</button>
             </div>
+            </scroll-view>
           </swiper-item>
           <swiper-item>
+            <scroll-view scroll-y="true" @scrolltolower="a">
             <div class="item">
-              <top :msg="msg2"></top>
+              <top :msg="msg2" :income="zhichu" :outlay="shouru"></top>
               <clist :list="list" v-if="!showdiv"></clist>
               <div class="none" v-if="showdiv">
                 <p>什么都没有呢</p>
                 <button @click="addincome">记一笔</button>
               </div>
             </div>
+            </scroll-view>
           </swiper-item>
           <swiper-item>
+            <scroll-view scroll-y="true" @scrolltolower="a">
             <div class="item">
-              <top :msg="msg3"></top>
+              <top :msg="msg3" :income="zhichu" :outlay="shouru"></top>
               <clist :list="list" v-if="!showdiv"></clist>
               <div class="none" v-if="showdiv">
                 <p>什么都没有呢</p>
                 <button @click="addincome">记一笔</button>
               </div>
             </div>
+            </scroll-view>
           </swiper-item>
           <swiper-item>
+            <scroll-view scroll-y="true" @scrolltolower="a">
             <div class="item">
-              <top :msg="msg4"></top>
+              <top :msg="msg4" :income="zhichu" :outlay="shouru"></top>
               <clist :list="list" v-if="!showdiv"></clist>
               <div class="none" v-if="showdiv">
                 <p>什么都没有呢</p>
                 <button @click="addincome">记一笔</button>
               </div>
             </div>
+            </scroll-view>
           </swiper-item>
         </swiper>
       </div>
     </div>
+    <i-message id="message" />
   </div>
 </template>
 
 <script>
 import clist from '@/components/clist'
 import top from '@/components/top'
+import {$Message} from '../../../static/iView/base/index'
 export default {
   name: 'statistics',
   data () {
@@ -70,12 +80,19 @@ export default {
       list: [
       ],
       by: '天',
-      showdiv: false
+      showdiv: false,
+      zhichu: '',
+      shouru: '',
+      page: 0,
+      size: 5,
+      maxpage: '',
+      line: false
     }
   },
   components: {
     clist,
-    top
+    top,
+    $Message
   },
   methods: {
     switchTab: function (prompt, res) {
@@ -107,21 +124,28 @@ export default {
       let oIndex = res.mp.detail.current
       this.currentTab = oIndex
     },
-    getListByUserid () {
+    getListByUserid (e) {
       var t = this
       t.$http.post({
         url: 'income/getListByUserid',
         data: {
+          page: t.page,
+          size: t.size,
           by: t.by,
           userid: wx.getStorageSync('user').id
         }
       }).then(res => {
         if (res.data.code === 200) {
-          t.list = []
-          t.list = res.data.data
+          if (e === 1) {
+            t.list = t.list.concat(res.data.data.list.list)
+          } else {
+            t.list = res.data.data.list.list
+          }
+          t.zhichu = res.data.data.income
+          t.shouru = res.data.data.outlay
+          t.maxpage = res.data.data.list.lastPage
           if (t.list.length === 0) {
             t.showdiv = true
-            console.log(111111111)
           } else {
             t.showdiv = false
           }
@@ -129,6 +153,23 @@ export default {
         console.log(res)
         console.log(222222)
       })
+    },
+    // 上滑加载更多
+    a () {
+      var t = this
+      // 下拉触底，先判断是否有请求正在进行中
+      // 以及检查当前请求页数是不是小于数据总页数，如符合条件，则发送请求
+      if (!t.loading && t.page < t.maxpage) {
+        console.log(111111111111111)
+        t.page = t.page + 1
+        this.getListByUserid(1)
+      } else {
+        t.page = 0
+        $Message({
+          content: '没有更多数据！',
+          duration: 5
+        })
+      }
     }
   },
   created () {
@@ -136,7 +177,6 @@ export default {
   onReady  () {
     this.getListByUserid()
   }
-
 }
 </script>
 
@@ -148,7 +188,6 @@ export default {
   .section-two {
     width: 100%;
     height: auto;
-    overflow: hidden;
     background-color: #fff;
   }
   /*轮播图导航 */
@@ -177,20 +216,14 @@ export default {
   }
   /*轮播图内容*/
   .cont {
-    position: absolute;
-    left: 0px;
     width: 100%;
-    height: 10rem;
-    font-size: 0.7567567567567568rem;
-
+    height: 95%;
+    display: flex;
+    position: fixed;
   }
-  .cont swiper-item {
-
-  }
-  .cont ::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-    color: transparent;
+  scroll-view{
+    width: 100%;
+    height: 93%;/*动态高度*/
   }
   .none{
     text-align: center;

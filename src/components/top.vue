@@ -1,15 +1,15 @@
 <template>
   <div class="top">
     <a>本{{msg}}支出</a>
-    <a style="font-size:2rem">0.00</a>
+    <a style="font-size:2rem">{{income}}</a>
     <div class="top2">
         <span>
           <text>本{{msg}}收入:</text>
-          <text>0</text>
+          <text>{{outlay}}</text>
         </span>
       <span style="padding-left: 5rem;">
           <text>本{{msg}}盈余:</text>
-          <text>0</text>
+          <text>{{outlay - income}}</text>
         </span>
     </div>
   </div>
@@ -18,7 +18,7 @@
 <script>
 export default {
   name: 'top',
-  props: ['msg']
+  props: ['msg', 'income', 'outlay']
 }
 </script>
 
