@@ -16,13 +16,19 @@
       </picker>
     </div>
     <div class="but">
-      <button @click="deleteIncome" class="btn">删除</button>
+      <button @click="deleteok" class="btn">删除</button>
+      <i-modal title="删除确认" :visible="visible5" show:ok="true" @ok="deleteIncome" @cancel="cancel">
+        <view>删除后无法恢复哦</view>
+      </i-modal>
+
       <button @click="updateIncome" class="btn">修改</button>
     </div>
+    <i-toast id="toast" />
   </div>
 </template>
 
 <script>
+import {$Toast} from '../../../static/iView/base/index'
 export default {
   name: 'detial',
   data () {
@@ -51,20 +57,51 @@ export default {
           name: '花呗'
         }
       ],
-      visible4: false
+      visible4: false,
+      visible5: false,
+      actions5: [
+        {
+          name: '取消'
+        },
+        {
+          name: '删除',
+          color: '#ed3f14',
+          loading: false
+        }
+      ]
     }
   },
   components: {
+    $Toast
   },
   methods: {
+    deleteok () {
+      this.visible5 = true
+    },
+    cancel () {
+      this.visible5 = false
+    },
     deleteIncome () {
       let t = this
+      t.visible5 = false
       t.$http.post({
         url: 'income/delete',
         data: {
           id: t.income.id
         }
       }).then(res => {
+        if (res.data.code === 200) {
+          $Toast({
+            content: '删除成功',
+            type: 'success',
+            duration: 2000
+          })
+          setTimeout(function () {
+            wx.navigateBack({
+              delta: 1
+            })
+          }, 1000) // 延迟时间 这里是1秒
+        }
         console.log(res)
       })
     },
@@ -77,7 +114,13 @@ export default {
           incomeOutlay: JSON.stringify(t.income)
         }
       }).then(res => {
-        console.log(res)
+        if (res.data.code === 200) {
+          $Toast({
+            content: '修改成功',
+            type: 'success',
+            duration: 1000
+          })
+        }
       })
     },
     bindDateChangeStart (e) {

@@ -122,9 +122,11 @@ export default {
           if (t.list.length === 0) {
             t.showdiv = true
             console.log(111111111)
+          } else {
+            t.showdiv = false
           }
         }
-        console.log(res.data)
+        console.log(res)
         console.log(222222)
       })
     }

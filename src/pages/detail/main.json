@@ -5,6 +5,7 @@
       "i-cell": "../../static/iView/cell/index",
       "i-button": "../../static/iView/button/index",
       "i-input": "../../static/iView/input/index",
-      "i-modal": "../../static/iView/modal/index"
+      "i-modal": "../../static/iView/modal/index",
+      "i-toast": "../../static/iView/toast/index"
     }
   }

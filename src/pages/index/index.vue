@@ -2,15 +2,15 @@
   <div id="app">
     <div class="top">
       <a>本月支出</a>
-      <a style="font-size:2rem">0.00</a>
+      <a style="font-size:2rem">{{zhichu}}</a>
       <div class="top2">
         <span>
           <text>本月收入:</text>
-          <text>0</text>
+          <text>{{shouru}}</text>
         </span>
         <span style="padding-left: 5rem;">
           <text>本月盈余:</text>
-          <text>0</text>
+          <text>{{shouru - zhichu}}</text>
         </span>
       </div>
     </div>
@@ -18,15 +18,15 @@
       <button @click="addincome">记一笔</button>
       <div class="date">
         <span>
-          <text>3月1日</text>
+          <text>今日</text>
         </span>
         <span style="padding-left:9rem;">
-          <text>支出:0</text>  &nbsp;&nbsp;
-          <text>收入:0</text>
+          <text>支出:{{zhichu}}</text>  &nbsp;&nbsp;
+          <text>收入:{{shouru}}</text>
         </span>
       </div>
       <i-cell-group v-if="!showdiv">
-        <i-cell v-for="t in income" :key="index"  :title="t.category" :label="t.dates" :value="t.amount" @click="toDetail(t.id)"  is-link>
+        <i-cell v-for="t in income" :key="index"  :title="t.category" :label="t.dates" :value="t.amount" @click="toDetail(t.id,t.type)"  is-link>
           <text>{{t.remarks}}</text>
         </i-cell>
       </i-cell-group>
@@ -48,7 +48,9 @@ export default {
       size: 5,
       maxpage: '',
       line: false,
-      showdiv: false
+      showdiv: false,
+      zhichu: '',
+      shouru: ''
     }
   },
   components: {
@@ -93,7 +95,7 @@ export default {
       }
       })
     },
-    getList () {
+    getList (e) {
       var t = this
       t.$http.post({
         url: 'income/list',
@@ -103,25 +105,30 @@ export default {
           userid: wx.getStorageSync('user').id
         }
       }).then(res => {
-        t.income = t.income.concat(res.data.data.list)
+        console.log(res)
+        if (e === 1) {
+          t.income = t.income.concat(res.data.data.list.list)
+        } else {
+          t.income = res.data.data.list.list
+        }
         if (t.income.length === 0) {
           t.showdiv = true
-          console.log(111111111)
+        } else {
+          t.showdiv = false
         }
-        console.log(t.income)
-        console.log(res)
-        console.log(t.income)
-        t.maxpage = res.data.data.lastPage
+        t.maxpage = res.data.data.list.lastPage
+        t.zhichu = res.data.data.income
+        t.shouru = res.data.data.outlay
       })
     },
-    toDetail (e) {
-      const url = '../detail/main?id=' + e
+    toDetail (e1, e2) {
+      const url = '../detail/main?id=' + e1 + '&&type=' + e2
       mpvue.navigateTo({ url })
-      console.log(e)
     }
   },
   created () {
-    // let app = getApp()\
+  },
+  onLoad () {
     var t = this
     wx.getSetting({
       success (res) {
@@ -146,13 +153,16 @@ export default {
     // 下拉触底，先判断是否有请求正在进行中
     // 以及检查当前请求页数是不是小于数据总页数，如符合条件，则发送请求
     if (!t.loading && t.page < t.maxpage) {
+      console.loe(111111111111111)
       t.page = t.page + 1
-      this.getList()
+      this.getList(1)
     } else {
       t.line = true
     }
   },
-  onload () {
+  onShow () {
+    var t = this
+    t.getList()
   }
 }
 </script>
