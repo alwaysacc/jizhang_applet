@@ -13,12 +13,12 @@
       <div v-if="tab1" class="tab1">
         <input type="number" v-model="income.amount"  class="input"/>
         <i-grid @click="setCategory">
-          <i-grid-item >一日三餐</i-grid-item>
+          <i-grid-item @click="a">一日三餐</i-grid-item>
           <i-grid-item>交通出行</i-grid-item>
           <i-grid-item>其他</i-grid-item>
         </i-grid>
         <i-input v-model="income.remarks" type="text" @change="setRemarks" title="备注：" maxlength="20" placeholder="请输入备注"/>
-        <i-input v-model="income.address" title="地址：" type="text" @change="setAddress" maxlength="20"  placeholder="请输入备注"/>
+        <i-input v-model="income.address" title="地址：" type="text" @change="setAddress" maxlength="20"  placeholder="请输入地址"/>
         <i-input v-model="account" title="账户：" type="text"  @click="zhanghu"/>
         <i-modal :visible="visible4" :actions="actions4" action-mode="vertical" @click="setAccount">
         </i-modal>
@@ -94,7 +94,7 @@ export default {
         dates: '',
         remarks: '',
         type: 1,
-        account: '123',
+        account: '花呗',
         userid: ''
       },
       account: '花呗',
@@ -221,6 +221,7 @@ export default {
       })
     },
     setCategory (e) {
+      console.log(e)
       this.income.category = e.mp._relatedInfo.anchorTargetText
     },
     setRemarks (e) {
@@ -255,5 +256,9 @@ export default {
 .tab1{
   font-size:0.3rem;
 }
-
+.ul li{
+  float: left;
+  width: 30%;
+  margin-left: 3%;
+}
 </style>

@@ -1,4 +1,4 @@
-const host = 'http://localhost:8082/'
+const host = 'https://www.alwaysacc.club/jizhang/'
 
 function request (url, method, data) {
   wx.showLoading({
