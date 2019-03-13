@@ -2,7 +2,8 @@
   "pages": [
     "pages/index/main",
     "pages/start/main",
-
+    "pages/email/main",
+    "pages/suggest/main",
     "pages/addincome/main",
     "pages/detail/main",
     "pages/assets/main",

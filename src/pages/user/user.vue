@@ -10,40 +10,96 @@
       </div>
       <div class="bot">
         <ul>
-          <li style="float: left;padding-left: 3rem">已记账0天</li>
-          <li style="float: right;padding-right:3rem">已记账0笔</li>
+          <li style="float: left;padding-left: 3rem">已记账{{day}}天</li>
+          <li style="float: right;padding-right:3rem">已记账{{count}}笔</li>
         </ul>
       </div>
     </div>
     <div class="bottom">
       <ul>
-        <li>我的账单<span><img class="img2" src="../../assets/you.png"/></span></li>
-        <li>定时提醒<span><img class="img2" src="../../assets/you.png"/></span></li>
-        <li>搜索账单<span><img class="img2" src="../../assets/you.png"/></span></li>
-        <li>消费报表<span><img class="img2" src="../../assets/you.png"/></span></li>
-        <li>反馈建议<span><img class="img2" src="../../assets/you.png"/></span></li>
-        <li>关于我<span><img class="img2" src="../../assets/you.png"/></span></li>
-        <li @click="onGotUserInfo">推荐给朋友<span><img class="img2" src="../../assets/you.png"/></span></li>
+        <li @click="a">导出账单<span><img class="img2" src="../../assets/you.png"/></span></li>
+        <li @click="err">定时提醒<span><img class="img2" src="../../assets/you.png"/></span></li>
+        <li @click="err">搜索账单<span><img class="img2" src="../../assets/you.png"/></span></li>
+        <li @click="err">消费报表<span><img class="img2" src="../../assets/you.png"/></span></li>
+        <li @click="suggest">反馈建议<span><img class="img2" src="../../assets/you.png"/></span></li>
+        <li @click="err">关于我<span><img class="img2" src="../../assets/you.png"/></span></li>
+        <button open-type="share" type="primary">推荐给朋友</button>
       </ul>
     </div>
+    <i-toast id="toast" />
   </div>
 
 </template>
 
 <script>
+import {$Toast} from '../../../static/iView/base/index'
 export default {
   name: 'user',
-  methods: {
-    onGotUserInfo (e) {
-      wx.getStorage({
-        key: 'user',
-        success (res) {
-          console.log(res.data)
-        }
-      })
+  data () {
+    return {
+      day: '',
+      count: ''
     }
   },
-  onLoad: function (options) {
+  components: {
+    $Toast
+  },
+  methods: {
+    err () {
+      $Toast({
+        content: '该页面暂未编写....',
+        type: 'error'
+      })
+    },
+    a () {
+      let url = '../email/main'
+      wx.navigateTo({ url })
+    },
+    suggest () {
+      let url = '../suggest/main'
+      wx.navigateTo({ url })
+    },
+    onGotUserInfo (e) {
+    },
+    onShareAppMessage: function (ops) {
+      if (ops.from === 'button') {
+        // 来自页面内转发按钮
+        console.log(ops.target)
+      }
+      return {
+        title: '转发dom',
+        path: `pages/index/index`,
+        success: function (res) {
+          // 转发成功
+          console.log('转发成功:' + JSON.stringify(res))
+          // var shareTickets = res.shareTickets
+          // if (shareTickets.length == 0) {
+          //   return false;
+          // }
+          // //可以获取群组信息
+          // wx.getShareInfo({
+          //   shareTicket: shareTickets[0],
+          //   success: function (res) {
+          //     console.log(res)
+          //   }
+          // })
+        }
+      }
+    }
+  },
+  onShow () {
+    let t = this
+    t.$http.post({
+      url: 'income/getCount',
+      data: {
+        userid: wx.getStorageSync('user').id
+      }
+    }).then(res => {
+      t.count = res.data.data[0].count
+      t.day = res.data.data[0].countday
+      console.log(res.data.data[0].count)
+      console.log(res.data.data[0].countday)
+    })
   }
 }
 </script>
@@ -52,6 +108,7 @@ export default {
   #home{
   width: 100%;
     text-align: center;
+
   }
   .top{
     background-color: white;
@@ -70,10 +127,13 @@ export default {
 .top .bot{
   text-align: left;
 }
+  .bot{
+    font-size: 0.3rem;
+  }
 .bottom{
   text-align: left;
   margin-top: 0.2rem;
-  font-size: 0.38rem;
+  font-size: 0.3rem;
 }
   .bottom ul li{
     height: 1rem;
@@ -97,5 +157,11 @@ export default {
   .bottom ul li span{
     float: right;
     padding-right: 0.1rem;
+  }
+  button{
+    width: 50%;
+    color: black;
+    margin-top: 0.5rem;
+    font-size: 0.3rem;
   }
 </style>

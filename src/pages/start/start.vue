@@ -2,8 +2,7 @@
   <div class="home">
     <span>{{span}}</span>
 
-    <button  open-type="getUserInfo" lang="zh_CN" @getuserinfo="onGotUserInfo">{{button}}</button>
-    <button @click="w">123</button>
+    <button  open-type="getUserInfo" lang="zh_CN" @getuserinfo="onGotUserInfo" type="primary">{{button}}</button>
   </div>
 </template>
 
@@ -80,6 +79,5 @@ export default {
   button{
     margin-top: 2rem;
     width: 3rem;
-    background-color: darkcyan;
   }
 </style>
