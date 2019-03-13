@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "i-cell-group": "../../static/iView/cell-group/index",
+    "i-cell": "../../static/iView/cell/index",
+    "i-avatar": "../../static/iView/avatar/index",
+    "i-radio-group": "../../static/iView/radio-group/index",
+    "i-radio": "../../static/iView/radio/index"
+  }
+}
