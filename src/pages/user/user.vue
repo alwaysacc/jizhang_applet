@@ -17,9 +17,9 @@
     </div>
     <div class="bottom">
       <ul>
-        <li @click="a">导出账单<span><img class="img2" src="../../assets/you.png"/></span></li>
+        <li @click="email">导出账单<span><img class="img2" src="../../assets/you.png"/></span></li>
         <li @click="err">定时提醒<span><img class="img2" src="../../assets/you.png"/></span></li>
-        <li @click="err">搜索账单<span><img class="img2" src="../../assets/you.png"/></span></li>
+        <li @click="search">搜索账单<span><img class="img2" src="../../assets/you.png"/></span></li>
         <li @click="err">消费报表<span><img class="img2" src="../../assets/you.png"/></span></li>
         <li @click="suggest">反馈建议<span><img class="img2" src="../../assets/you.png"/></span></li>
         <li @click="err">关于我<span><img class="img2" src="../../assets/you.png"/></span></li>
@@ -51,8 +51,12 @@ export default {
         type: 'error'
       })
     },
-    a () {
+    email () {
       let url = '../email/main'
+      wx.navigateTo({ url })
+    },
+    search () {
+      let url = '../search/main'
       wx.navigateTo({ url })
     },
     suggest () {

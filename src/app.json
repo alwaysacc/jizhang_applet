@@ -9,7 +9,8 @@
     "pages/assets/main",
     "pages/statistics/main",
     "pages/counter/main",
-    "pages/user/main"
+    "pages/user/main",
+    "pages/search/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

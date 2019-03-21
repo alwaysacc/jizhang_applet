@@ -1,6 +1,6 @@
 <view class="i-class i-page">
     <view class="i-page-prev" wx:if="{{ mode === 'button' }}">
-        <i-button i-class="i-page-button" type="ghost" bindclick="handlePrev" disabled="{{ current === 1 }}"><slot name="prev"></slot></i-button>
+        <i-button i-class="i-page-button" type="ghost" bindclick="handlePrev" disabled="{{ current === 0 }}"><slot name="prev"></slot></i-button>
     </view>
     <view class="i-page-number" wx:if="{{ mode !== 'pointer' && !simple }}">
         <view class="i-page-number-current">{{ current }}</view>/{{total}}

@@ -208,6 +208,11 @@ export default {
             content: '成功',
             type: 'success'
           })
+          setTimeout(function () {
+            wx.navigateBack({
+              delta: 1
+            })
+          }, 1000)
           t.income.remarks = ''
           t.income.category = ''
           t.income.address = ''
